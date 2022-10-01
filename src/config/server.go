@@ -27,7 +27,7 @@ func server(cmd *cobra.Command, args []string) error {
 			Addr:         addrs,
 			WriteTimeout: time.Second * 15,
 			ReadTimeout:  time.Second * 15,
-			IdleTimeout:  time.Minute,
+			IdleTimeout:  time.Minute * 5,
 			Handler:      mainRoute,
 		}
 
