@@ -21,7 +21,7 @@ func server(cmd *cobra.Command, args []string) error {
 		var addrs string
 
 		if pr := helpers.Godotenv("PORT"); pr != "" {
-			addrs = "127.0.0.1:" + pr
+			addrs = "0.0.0.0:" + pr
 		}
 		srv := &http.Server{
 			Addr:         addrs,
