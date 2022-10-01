@@ -25,8 +25,8 @@ func server(cmd *cobra.Command, args []string) error {
 		}
 		srv := &http.Server{
 			Addr:         addrs,
-			WriteTimeout: time.Second * 15,
-			ReadTimeout:  time.Second * 15,
+			WriteTimeout: time.Second * 20,
+			ReadTimeout:  time.Second * 20,
 			IdleTimeout:  time.Minute * 5,
 			Handler:      mainRoute,
 		}
