@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/adiet95/gorent-api/src/config"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {

@@ -3,9 +3,9 @@ package config
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
-	"github.com/adiet95/gorent-api/src/helpers"
 	"github.com/adiet95/gorent-api/src/routers"
 	"github.com/spf13/cobra"
 )
@@ -17,10 +17,11 @@ var ServeCmd = &cobra.Command{
 }
 
 func server(cmd *cobra.Command, args []string) error {
+
 	if mainRoute, err := routers.New(); err == nil {
 		var addrs string = "127.0.0.1:8080"
 
-		if pr := helpers.Godotenv("PORT"); pr != "" {
+		if pr := os.Getenv("PORT"); pr != "" {
 			addrs = "0.0.0.0:" + pr
 		}
 		srv := &http.Server{

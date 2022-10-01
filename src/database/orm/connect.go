@@ -3,8 +3,8 @@ package orm
 import (
 	"errors"
 	"fmt"
+	"os"
 
-	"github.com/adiet95/gorent-api/src/helpers"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -14,10 +14,10 @@ import (
 
 func New() (*gorm.DB, error) {
 
-	host := helpers.Godotenv("HOST")
-	user := helpers.Godotenv("USER")
-	password := helpers.Godotenv("PASS")
-	dbName := helpers.Godotenv("DB")
+	host := os.Getenv("HOST")
+	user := os.Getenv("USER")
+	password := os.Getenv("PASS")
+	dbName := os.Getenv("DB")
 
 	config := fmt.Sprintf("host=%s user=%s password=%s dbname=%s", host, user, password, dbName)
 
