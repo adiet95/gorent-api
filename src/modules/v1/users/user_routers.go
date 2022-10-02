@@ -3,6 +3,7 @@ package users
 import (
 	"github.com/adiet95/gorent-api/src/middleware"
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"gorm.io/gorm"
 )
 
@@ -12,6 +13,7 @@ func New(rt *mux.Router, db *gorm.DB) {
 	svc := NewService(repo)
 	ctrl := NewCtrl(svc)
 
+	route.Handle("/metrics", promhttp.Handler())
 	route.HandleFunc("/", middleware.CheckAuth(ctrl.GetAll)).Methods("GET")
 	route.HandleFunc("/", middleware.CheckAuth(middleware.CheckAuthor(middleware.UploadFile(ctrl.Add)))).Methods("POST")
 	route.HandleFunc("/", middleware.CheckAuth(middleware.UploadFile(ctrl.Update))).Methods("PUT")

@@ -1,12 +1,13 @@
 package helpers
 
 import (
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
 )
 
-var mySecrets = []byte(Godotenv("JWT_KEYS"))
+var mySecrets = []byte(os.Getenv("JWT_KEYS"))
 
 type claims struct {
 	Email string

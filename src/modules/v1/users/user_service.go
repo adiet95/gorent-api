@@ -71,9 +71,11 @@ func (re *user_service) Delete(email string) *helpers.Response {
 		return helpers.New(err.Error(), 400, true)
 	}
 	oldPath := &oldData.Path
-	err1 := os.Remove(*oldPath)
-	if err1 != nil {
-		return helpers.New(err1.Error(), 400, true)
+	if *oldPath != "" {
+		err1 := os.Remove(*oldPath)
+		if err1 != nil {
+			return helpers.New(err1.Error(), 400, true)
+		}
 	}
 
 	data, err := re.user_repo.DeleteUser(email)
