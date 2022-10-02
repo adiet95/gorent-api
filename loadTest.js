@@ -38,7 +38,7 @@ export function setup() {
     password: PASSWORD,
   });
 
-  const authToken = loginRes.json("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluIiwiUm9sZSI6ImFkbWluIiwiZXhwIjoxNjY0NzU2MjMxfQ.qq38p37jx35Ku2gG81_U2ayckJNIAfajlQJcAS8lCIU");
+  const authToken = loginRes.json("token");
   check(authToken, { 'logged in successfully': () => authToken !== '' });
 
   return authToken;
@@ -47,7 +47,7 @@ export function setup() {
 export default (authToken) => {
   const requestConfigWithTag = (tag) => ({
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluIiwiUm9sZSI6ImFkbWluIiwiZXhwIjoxNjY0NzU2NDIzfQ.HkuMJItzCV37xgStCTHyzvOjMzqQsMoHMtHyeOeIcNw `,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluIiwiUm9sZSI6ImFkbWluIiwiZXhwIjoxNjY0NzU3NTY3fQ.yRcCZR3zbB1km8eBVktZfwuWOIzL1s3sz_-xbexnMek `,
     },
     tags: Object.assign(
       {},
@@ -78,12 +78,15 @@ export default (authToken) => {
   group('Create and modify crocs', () => {
     let URL = `${BASE_URL}user/`;
 
+    let ranEmail = `${randomString(10)}`
+
     group('Create crocs', () => {
       const payload = {
-        email: `${randomString(10)}`,
+        email: ranEmail,
         password: 'user',
         role: 'user',
       };
+    console.log(ranEmail, "dari user");
 
       const res = http.post(URL, payload, requestConfigWithTag({ name: 'Create' }));
 
@@ -95,29 +98,29 @@ export default (authToken) => {
       }
     });
 
-    group('Update croc', () => {
-      const payload = { 
-        password: 'NewPass',
-        address: 'Jakarta',
-        phone: '+62'
-     };
+    // group('Update croc', () => {
+    //   const payload = {address: 'Jakarta'};
 
-      const res = http.put(URL, payload,requestConfigWithTag({ name: 'Update' }));
+    //   const res = http.put(URL, payload,requestConfigWithTag({ name: 'Update' }));
 
-      const isSuccessfulUpdate = check(res, {
-        'Update worked': () => res.status === 200,
-        'Updated is correct': () => res.json('password') === 'NewPass',
-      });
+    //   const isSuccessfulUpdate = check(res, {
+    //     'Update worked': () => res.status === 200,
+    //     'Updated is correct': () => res.json('address') === 'Jakarta'
+    //   });
 
-      if (!isSuccessfulUpdate) {
-        console.log(`Unable to update the croc ${res.status} ${res.body}`);
-        return;
-      }
-    });
+    //   if (!isSuccessfulUpdate) {
+    //     console.log(`Unable to update the croc ${res.status} ${res.body}`);
+    //     return;
+    //   }
+    // });
+    const payload = {
+        email: `?email=${ranEmail}`
+      };
 
-    const delRes = http.del(URL, null, requestConfigWithTag({ name: 'Delete' }));
+    console.log(ranEmail, "dari del");
+    const delRes = http.del(URL, null, payload,requestConfigWithTag({ name: 'Delete' }));
 
-    const isSuccessfulDelete = check(null, {
+    const isSuccessfulDelete = check(delRes, {
       'Croc was deleted correctly': () => delRes.status === 200,
     });
 

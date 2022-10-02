@@ -28,7 +28,7 @@ func (re *user_service) Add(data *models.User) *helpers.Response {
 	if err != nil {
 		return helpers.New(err.Error(), 400, true)
 	}
-	return helpers.New(result, 200, false)
+	return helpers.New(result, 201, false)
 }
 
 func (re *user_service) Update(data *models.User, email string, fileName string, path string) *helpers.Response {
@@ -82,7 +82,7 @@ func (re *user_service) Delete(email string) *helpers.Response {
 	if err != nil {
 		return helpers.New(err.Error(), 400, true)
 	}
-	return helpers.New(data, 200, false)
+	return helpers.New(data, 204, false)
 }
 
 func (re *user_service) FindEmail(email string) *helpers.Response {
