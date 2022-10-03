@@ -20,7 +20,7 @@ func (m *RepoMock) Save(data *models.User) (*models.User, error) {
 }
 
 func (m *RepoMock) UpdateUser(data *models.User, email string) (*models.User, error) {
-	args := m.mock.Called(data)
+	args := m.mock.Called(data, email)
 	return args.Get(0).(*models.User), nil
 }
 

@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"net/http"
+
 	"github.com/adiet95/gorent-api/src/database/orm/models"
 	"github.com/adiet95/gorent-api/src/helpers"
 	"github.com/adiet95/gorent-api/src/interfaces"
@@ -17,7 +19,7 @@ func NewService(reps interfaces.UserRepo) *auth_service {
 	return &auth_service{reps}
 }
 
-func (a auth_service) Login(body models.User) *helpers.Response {
+func (a auth_service) Login(body models.User, w http.ResponseWriter) *helpers.Response {
 	user, err := a.repo.FindByEmail(body.Email)
 	if err != nil {
 		return helpers.New("email not registered, register first", 401, true)
@@ -30,6 +32,9 @@ func (a auth_service) Login(body models.User) *helpers.Response {
 	if err != nil {
 		return helpers.New(err.Error(), 401, true)
 	}
+
+	w.Header().Set("Access", theToken)
+
 	return helpers.New(token_response{Tokens: theToken}, 200, false)
 }
 

@@ -52,6 +52,8 @@ func getStatus(status int) string {
 		desc = "Created"
 	case 202:
 		desc = "Accepted"
+	case 204:
+		desc = "Deleted"
 	case 304:
 		desc = "Not Modified"
 	case 400:

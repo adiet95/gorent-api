@@ -62,21 +62,10 @@ func (re *user_service) Update(data *models.User, email string, fileName string,
 	if err != nil {
 		return helpers.New(err.Error(), 400, true)
 	}
-	return helpers.New(result, 200, false)
+	return helpers.New(result, 202, false)
 }
 
 func (re *user_service) Delete(email string) *helpers.Response {
-	oldData, err := re.user_repo.FindByEmail(email)
-	if err != nil {
-		return helpers.New(err.Error(), 400, true)
-	}
-	oldPath := &oldData.Path
-	if *oldPath != "" {
-		err1 := os.Remove(*oldPath)
-		if err1 != nil {
-			return helpers.New(err1.Error(), 400, true)
-		}
-	}
 
 	data, err := re.user_repo.DeleteUser(email)
 	if err != nil {

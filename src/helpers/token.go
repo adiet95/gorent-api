@@ -9,14 +9,14 @@ import (
 
 var mySecrets = []byte(os.Getenv("JWT_KEYS"))
 
-type claims struct {
+type Claims struct {
 	Email string
 	Role  string
 	jwt.StandardClaims
 }
 
-func NewToken(email, role string) *claims {
-	return &claims{
+func NewToken(email, role string) *Claims {
+	return &Claims{
 		Email: email,
 		Role:  role,
 		StandardClaims: jwt.StandardClaims{
@@ -25,18 +25,18 @@ func NewToken(email, role string) *claims {
 	}
 }
 
-func (c *claims) Create() (string, error) {
+func (c *Claims) Create() (string, error) {
 	tokens := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 	return tokens.SignedString(mySecrets)
 }
 
-func CheckToken(token string) (*claims, error) {
-	tokens, err := jwt.ParseWithClaims(token, &claims{}, func(t *jwt.Token) (interface{}, error) {
+func CheckToken(token string) (*Claims, error) {
+	tokens, err := jwt.ParseWithClaims(token, &Claims{}, func(t *jwt.Token) (interface{}, error) {
 		return []byte(mySecrets), nil
 	})
 	if err != nil {
 		return nil, err
 	}
-	claims := tokens.Claims.(*claims)
-	return claims, err
+	Claims := tokens.Claims.(*Claims)
+	return Claims, err
 }

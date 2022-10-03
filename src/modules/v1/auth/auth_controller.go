@@ -25,7 +25,8 @@ func (a *auth_ctrl) SignIn(w http.ResponseWriter, r *http.Request) {
 		helpers.New(err.Error(), 401, true)
 		return
 	}
-	a.repo.Login(data).Send(w)
+
+	a.repo.Login(data, w).Send(w)
 }
 
 func (a *auth_ctrl) Register(w http.ResponseWriter, r *http.Request) {
